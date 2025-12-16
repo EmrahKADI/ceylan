@@ -129,10 +129,22 @@
         render();
       }
 
-      btn.addEventListener("click", next, { passive: true });
-      btn.addEventListener("touchstart", next, { passive: true });
+      // iPhone WhatsApp in-app browser bazen touch + click'i ikisini birden tetikler.
+// Bu yüzden "touchstart" sonrası gelen "click"i kısa süreliğine yok sayıyoruz.
+let touchFired = false;
 
-      render();
+btn.addEventListener("touchstart", () => {
+  touchFired = true;
+  next();
+  setTimeout(() => { touchFired = false; }, 450);
+}, { passive: true });
+
+btn.addEventListener("click", () => {
+  if (touchFired) return;
+  next();
+}, { passive: true });
+
+render();
     })();
   </script>
 </body>
