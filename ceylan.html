@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="theme-color" content="#ffffff" />
+  <title>Günaydın</title>
+  <style>
+    :root { color-scheme: light; }
+    body{
+      margin:0;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+      background: radial-gradient(1200px 700px at 50% 10%, #fff7d1 0%, #ffffff 55%, #f3f6ff 100%);
+      -webkit-text-size-adjust: 100%;
+    }
+    #gunaydin-app{
+      width:min(420px, 92vw);
+      margin: 24px;
+      text-align:center;
+      padding: 18px 14px 22px;
+      border-radius: 22px;
+      background: rgba(255,255,255,.72);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 18px 40px rgba(0,0,0,.12);
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    #gunaydinBtn{
+      width: 100%;
+      padding: 16px 18px;
+      border: 0;
+      border-radius: 16px;
+      cursor: pointer;
+      font-weight: 900;
+      font-size: 18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.15);
+      background: linear-gradient(135deg, #ffd86b, #ffb703);
+      color:#1f1f1f;
+      touch-action: manipulation; /* iOS/WhatsApp: daha iyi dokunma davranışı */
+    }
+    #gunaydinBtn:active{ transform: translateY(1px) scale(.995); }
+    #gunaydinText{
+      margin-top: 18px;
+      min-height: 64px;
+      font-size: 34px;
+      font-weight: 900;
+      letter-spacing: 1px;
+      opacity: 0;
+      transform: translateY(10px) scale(.98);
+      transition: all .35s ease;
+      text-shadow: 0 10px 26px rgba(0,0,0,.18);
+      line-height: 1.1;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    #hint{
+      margin-top: 12px;
+      font-size: 12px;
+      opacity: .55;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="gunaydin-app">
+    <button id="gunaydinBtn" type="button">☀️ Basınca Günaydın!</button>
+    <div id="gunaydinText" aria-live="polite"></div>
+    <div id="hint">iPhone/WhatsApp’ta sorunsuz çalışması için sayfayı <b>HTTPS</b> linkiyle aç.</div>
+  </div>
+
+  <script>
+    (function () {
+      const btn = document.getElementById("gunaydinBtn");
+      const box = document.getElementById("gunaydinText");
+
+      const messages = [
+        "𝗚Ü𝗡𝗔𝗬𝗗𝗜𝗡𝗡𝗡𝗡 ☀️",
+        "GÜNAYDINNNN ⚡",
+        "☀️ GÜN BAŞLASINNN!",
+        "Günaydın 🌿 Bugün güzel geçsin!",
+        "Günaydın ✨ Enerji sende!"
+      ];
+
+      function showRandom() {
+        const msg = messages[Math.floor(Math.random() * messages.length)];
+        box.textContent = msg;
+
+        // küçük “pop” animasyonu
+        box.style.opacity = "1";
+        box.style.transform = "translateY(0) scale(1.03)";
+        setTimeout(() => box.style.transform = "translateY(0) scale(1)", 160);
+      }
+
+      // iOS WhatsApp in-app browser bazen click’i geciktirir; touchstart ekliyoruz.
+      btn.addEventListener("click", showRandom, { passive: true });
+      btn.addEventListener("touchstart", showRandom, { passive: true });
+
+      // Sayfa açılınca bir kere otomatik yazalım (WhatsApp önizlemesinde de hemen görünür)
+      showRandom();
+    })();
+  </script>
+</body>
+</html>
