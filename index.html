@@ -107,7 +107,15 @@
 
   <script>
     (function() {
+      
       const photos = ["images/foto1.jpg","images/foto2.jpg","images/foto3.jpg","images/foto4.jpg"];
+      const buttonTexts = [
+        "Bir sonraki güzel anımıza 💫",
+        "Bir sonraki için bir daha tıklamanı rica edicem 💛",
+        "Bir daha… ha gayret 🤍",
+        "Son olarak 💜"
+      ];
+
       const messages = ['Günaydınnnnnnnnnnnnnnnnn sabahın huzuru', 'Güneş kadar parlak, çiçekler kadar renkli bir gün senin olsun. Günaydın!', 'Gözlerimi açtığımda ilk aklıma gelen şey senin gülüşünnn    Günaydınnnnnnn', 'Günaydın sevgilim, seni çok seviyorum'];
 
       const imgEl = document.getElementById("photo");
@@ -116,7 +124,10 @@
 
       let i = 0;
 
+      
       function render() {
+        btn.textContent = buttonTexts[i];
+    
         imgEl.src = photos[i];
         msgEl.textContent = messages[i];
 
