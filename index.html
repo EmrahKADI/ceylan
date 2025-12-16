@@ -6,102 +6,133 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <meta name="apple-mobile-web-app-status-bar-style" content="default" />
   <meta name="theme-color" content="#ffffff" />
-  <title>Günaydın</title>
+  <title>Günaydın 💛</title>
+
+  <!-- WhatsApp/iMessage link önizlemesi için -->
+  <meta property="og:title" content="Günaydın 💛" />
+  <meta property="og:description" content="Tıkla, sırayla fotoğraf ve günaydın mesajları değişsin." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="images/foto1.jpg" />
+
   <style>
     :root { color-scheme: light; }
-    body{
-      margin:0;
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
       background: radial-gradient(1200px 700px at 50% 10%, #fff7d1 0%, #ffffff 55%, #f3f6ff 100%);
       -webkit-text-size-adjust: 100%;
     }
-    #gunaydin-app{
-      width:min(420px, 92vw);
-      margin: 24px;
-      text-align:center;
-      padding: 18px 14px 22px;
+    .wrap {
+      width: min(520px, 92vw);
+      margin: 22px;
+      padding: 16px 14px 18px;
       border-radius: 22px;
-      background: rgba(255,255,255,.72);
+      background: rgba(255,255,255,.76);
       backdrop-filter: blur(10px);
       box-shadow: 0 18px 40px rgba(0,0,0,.12);
       border: 1px solid rgba(0,0,0,.06);
+      text-align: center;
     }
-    #gunaydinBtn{
+    .photo {
       width: 100%;
-      padding: 16px 18px;
+      aspect-ratio: 4 / 3;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #f2f2f2;
+      box-shadow: 0 10px 26px rgba(0,0,0,.14);
+      border: 1px solid rgba(0,0,0,.06);
+    }
+    .photo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transform: scale(1.01);
+      display: block;
+    }
+    .msg {
+      margin: 14px 6px 0;
+      font-size: 20px;
+      font-weight: 800;
+      line-height: 1.25;
+      letter-spacing: .2px;
+      opacity: 0;
+      transform: translateY(8px);
+      transition: all .25s ease;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+    .msg.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    .btn {
+      margin-top: 14px;
+      width: 100%;
+      padding: 14px 16px;
       border: 0;
       border-radius: 16px;
       cursor: pointer;
       font-weight: 900;
-      font-size: 18px;
+      font-size: 16px;
       box-shadow: 0 10px 24px rgba(0,0,0,.15);
       background: linear-gradient(135deg, #ffd86b, #ffb703);
       color:#1f1f1f;
-      touch-action: manipulation; /* iOS/WhatsApp: daha iyi dokunma davranışı */
+      touch-action: manipulation;
     }
-    #gunaydinBtn:active{ transform: translateY(1px) scale(.995); }
-    #gunaydinText{
-      margin-top: 18px;
-      min-height: 64px;
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing: 1px;
-      opacity: 0;
-      transform: translateY(10px) scale(.98);
-      transition: all .35s ease;
-      text-shadow: 0 10px 26px rgba(0,0,0,.18);
-      line-height: 1.1;
-      user-select: none;
-      -webkit-user-select: none;
-    }
-    #hint{
-      margin-top: 12px;
+    .btn:active { transform: translateY(1px) scale(.995); }
+    .hint {
+      margin-top: 10px;
       font-size: 12px;
-      opacity: .55;
+      opacity: .6;
     }
   </style>
 </head>
 
 <body>
-  <div id="gunaydin-app">
-    <button id="gunaydinBtn" type="button">☀️ Basınca Günaydın!</button>
-    <div id="gunaydinText" aria-live="polite"></div>
-    <div id="hint">iPhone/WhatsApp’ta sorunsuz çalışması için sayfayı <b>HTTPS</b> linkiyle aç.</div>
-  </div>
+  <main class="wrap">
+    <div class="photo">
+      <img id="photo" src="images/foto1.jpg" alt="Fotoğrafımız" />
+    </div>
+
+    <div id="msg" class="msg" aria-live="polite"></div>
+
+    <button id="next" class="btn" type="button">Tıklamaya devam et nolur… bir daha… ha gayret 💛</button>
+
+    <div class="hint">Her tıklamada sırayla bir sonraki fotoğraf + mesaj gelir. (4’ten sonra başa döner)</div>
+  </main>
 
   <script>
-    (function () {
-      const btn = document.getElementById("gunaydinBtn");
-      const box = document.getElementById("gunaydinText");
+    (function() {
+      const photos = ["images/foto1.jpg","images/foto2.jpg","images/foto3.jpg","images/foto4.jpg"];
+      const messages = ['Günaydınnnnnnnnnnnnnnnnn sabahın huzuru', 'Güneş kadar parlak, çiçekler kadar renkli bir gün senin olsun. Günaydın!', 'Gözlerimi açtığımda ilk aklıma gelen şey senin gülüşünnn    Günaydınnnnnnn', 'Günaydın sevgilim, seni çok seviyorum'];
 
-      const messages = [
-        "𝗚Ü𝗡𝗔𝗬𝗗𝗜𝗡𝗡𝗡𝗡 ☀️",
-        "GÜNAYDINNNN ⚡",
-        "☀️ GÜN BAŞLASINNN!",
-        "Günaydın 🌿 Bugün güzel geçsin!",
-        "Günaydın ✨ Enerji sende!"
-      ];
+      const imgEl = document.getElementById("photo");
+      const msgEl = document.getElementById("msg");
+      const btn = document.getElementById("next");
 
-      function showRandom() {
-        const msg = messages[Math.floor(Math.random() * messages.length)];
-        box.textContent = msg;
+      let i = 0;
 
-        // küçük “pop” animasyonu
-        box.style.opacity = "1";
-        box.style.transform = "translateY(0) scale(1.03)";
-        setTimeout(() => box.style.transform = "translateY(0) scale(1)", 160);
+      function render() {
+        imgEl.src = photos[i];
+        msgEl.textContent = messages[i];
+
+        msgEl.classList.remove("show");
+        requestAnimationFrame(() => msgEl.classList.add("show"));
       }
 
-      // iOS WhatsApp in-app browser bazen click’i geciktirir; touchstart ekliyoruz.
-      btn.addEventListener("click", showRandom, { passive: true });
-      btn.addEventListener("touchstart", showRandom, { passive: true });
+      function next() {
+        i = (i + 1) % photos.length;
+        render();
+      }
 
-      // Sayfa açılınca bir kere otomatik yazalım (WhatsApp önizlemesinde de hemen görünür)
-      showRandom();
+      btn.addEventListener("click", next, { passive: true });
+      btn.addEventListener("touchstart", next, { passive: true });
+
+      render();
     })();
   </script>
 </body>
